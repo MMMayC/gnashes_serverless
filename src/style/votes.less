@@ -1,0 +1,26 @@
+.Votes {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    width: 100%;
+    &-Overview {
+        height: 300px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    &-Count {
+        color: @color-theme-blue;
+        font-size: 450px;
+        text-align: center;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        opacity: 0.5;
+    }
+}

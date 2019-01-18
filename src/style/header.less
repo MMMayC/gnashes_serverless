@@ -1,0 +1,48 @@
+.Header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: @color-theme-blue;
+    color: white;
+    height: 80px;
+    width: 100%;
+    overflow: hidden;
+    &-Pacific {
+        font-size: 150%;
+        line-height: 95%;
+        word-spacing: 100vw;
+        width: 90px;
+        text-align: right;
+    }
+    &-Grizzly {
+        width: 105px;
+        height: 80px;
+        z-index: 1;
+        img {
+            height: 80px;
+            position: relative;
+            margin: 0;
+            // animation-duration: 3s;
+            // animation-name: animated-arrow;
+            // animation-iteration-count: infinite;
+            // @keyframes animated-arrow {
+            //     from {
+            //         top: 25px;
+            //     }
+            //     50% {
+            //         top: 0;
+            //     }
+            //     to {
+            //         top: 25px;
+            //     }
+            // }
+        }
+        
+    }
+    &-Gnashes {
+        font-size: 280%;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+}

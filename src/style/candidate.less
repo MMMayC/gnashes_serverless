@@ -1,0 +1,39 @@
+.Candidate {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    &-Photo {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 2px solid @color-theme-dark;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        img {
+            width: 95%;
+            height: 95%;
+            border-radius: 50%;
+        }
+    }
+    &-Name {
+        text-align: center;
+        font-size: 120%;
+    }
+    &:hover, &:focus {
+        img {
+            opacity: .6;
+            transition: .4s;
+        }
+        .NominateButton {
+            display: block;
+            opacity: 1;
+            transition: all .4s;
+        }
+    }
+}
