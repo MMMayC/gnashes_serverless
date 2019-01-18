@@ -5,4 +5,4 @@ jspm_packages
 # Serverless directories
 .serverless
 
-public/bundle.js
+express-api-endpoint/public/bundle.js

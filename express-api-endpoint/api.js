@@ -9,7 +9,6 @@ const AWS = require("aws-sdk");
 
 const cors = require('cors')
 const compression = require('compression')
-const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const router = express.Router()
 
 router.use(compression())
@@ -17,7 +16,6 @@ router.use(compression())
 router.use(cors())
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({ extended: true }))
-router.use(awsServerlessExpressMiddleware.eventContext())
 
 require('dotenv').config();
 
@@ -44,41 +42,11 @@ function generateRowId() {
   return (ts * 512) + (randid % 512);
 }
 
-//SSR function import
-// const server = require("./views/server");
+router.use(express.static(path.resolve(__dirname, "public")));
 
-// Serving static files
-app.use(express.static(path.resolve(__dirname, "../public")));
-
-// Body-parser configuration
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
-
-
-// database setup
-// mongoose.connect("mongodb://localhost:27017/gnashes", { useNewUrlParser: true });
-
-// Candidates = require("./models/candidates");
-// Votes = require("./models/votes");
-
-// let initialState = {
-//   candidates: {
-//     candidates: null,
-//     currentCandidate: null
-//   },
-//   votes: {
-//     votes: null,
-//     gnashes: null
-//   }
-// }
-
-// server rendered home page
 router.get(["/", "/result"], (req, res) => {
-  // const { preloadedState, content}  = server(initialState, req.url)
-  // const response = template(preloadedState, content)
-  // res.setHeader("Cache-Control", "public, max-age=604800")
-  // res.send(response);
-  res.sendFile('index.html');
+  res.setHeader("Cache-Control", "public, max-age=604800")
+  res.sendFile('index.html', {root: path.resolve(__dirname, "public")});
 });
 
 router.post("/vote", (req, res) => {
