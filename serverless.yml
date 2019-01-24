@@ -1,131 +1,90 @@
-# Welcome to Serverless!
-#
-# This file is the main config file for your service.
-# It's very minimal at this point and uses default values.
-# You can always add more config options for more control.
-# We've included some commented out config examples here.
-# Just uncomment any of them to get that config option.
-#
-# For full config options, check the docs:
-#    docs.serverless.com
-#
-# Happy Coding!
-
-service: gnashes-aws # NOTE: update this with your service name
-
-# You can pin your service to only deploy with a specific Serverless version
-# Check out our docs for more details
-# frameworkVersion: "=X.X.X"
+service: the-gnashes-serverless # NOTE: update this with your service name
 
 provider:
     name: aws
     runtime: nodejs8.10
+    stage: dev
+    region: us-east-1
+    iamRoleStatements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - { "Fn::GetAtt": [ "VotesDynamoDBTable", "Arn" ] }
+            - { "Fn::GetAtt": [ "CandidatesDynamoDBTable", "Arn" ] }
+    environment:
+        CANDIDATES_TABLE: ${self:custom.candidatesTable}
+        VOTES_TABLE: ${self:custom.votesTable}
 
-# the plugin
+
 plugins:
-    - serverless-express
     - serverless-s3-sync
-stage: dev
-region: us-east-1
 
 custom:
+    candidatesTable: 'Candidates'
+    votesTable: 'Votes'
     s3Sync:
-        - bucketName: gnashes-aws
-          localDir: spa/public
+        - bucketName: the-gnashes-serverless
+          localDir: public
           acl: public-read # optional
           followSymlinks: true # optional
           params: # optional
               - index.html:
                     CacheControl: "no-cache"
 
-# you can add statements to the Lambda function's IAM Role here
-#  iamRoleStatements:
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:ListBucket"
-#      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:PutObject"
-#      Resource:
-#        Fn::Join:
-#          - ""
-#          - - "arn:aws:s3:::"
-#            - "Ref" : "ServerlessDeploymentBucket"
-#            - "/*"
-
-# you can define service wide environment variables here
 environment:
     SERVERLESS_EXPRESS_PLATFORM: aws
 
-# you can add packaging information here
-#package:
-#  include:
-#    - include-me.js
-#    - include-me-dir/**
-#  exclude:
-#    - exclude-me.js
-#    - exclude-me-dir/**
-
 functions:
     app:
-        handler: handler.api
+        handler: index.handler
         events:
             - http:
                   path: /{proxy+}
                   method: ANY
-#    The following are a few example events you can configure
-#    NOTE: Please make sure to change your handler code to work with those events
-#    Check the event documentation for details
-#    events:
-#      - http:
-#          path: users/create
-#          method: get
-#      - s3: ${env:BUCKET}
-#      - schedule: rate(10 minutes)
-#      - sns: greeter-topic
-#      - stream: arn:aws:dynamodb:region:XXXXXX:table/foo/stream/1970-01-01T00:00:00.000
-#      - alexaSkill: amzn1.ask.skill.xx-xx-xx-xx
-#      - alexaSmartHome: amzn1.ask.skill.xx-xx-xx-xx
-#      - iot:
-#          sql: "SELECT * FROM 'some_topic'"
-#      - cloudwatchEvent:
-#          event:
-#            source:
-#              - "aws.ec2"
-#            detail-type:
-#              - "EC2 Instance State-change Notification"
-#            detail:
-#              state:
-#                - pending
-#      - cloudwatchLog: '/aws/lambda/hello'
-#      - cognitoUserPool:
-#          pool: MyUserPool
-#          trigger: PreSignUp
-
-#    Define function environment variables here
-#    environment:
-#      variable2: value2
-
-# you can add CloudFormation resource templates here
-# resources:
-#  Resources:
-#    NewResource:
-#      Type: AWS::S3::Bucket
-#      Properties:
-#        BucketName: my-new-bucket
-#  Outputs:
-#     NewOutput:
-#       Description: "Description for the output"
-#       Value: "Some output value"
 
 resources:
     Resources:
         GnashesAwsSiteBucket:
             Type: AWS::S3::Bucket
             Properties:
-                BucketName: gnashes-aws
+                BucketName: the-gnashes-serverless
                 AccessControl: PublicRead
                 WebsiteConfiguration:
                     IndexDocument: index.html
                     ErrorDocument: index.html
+        VotesDynamoDBTable:
+            Type: 'AWS::DynamoDB::Table'
+            Properties:
+                AttributeDefinitions:
+                -
+                    AttributeName: id
+                    AttributeType: N
+                KeySchema:
+                -
+                    AttributeName: id
+                    KeyType: HASH
+                ProvisionedThroughput:
+                    ReadCapacityUnits: 1
+                    WriteCapacityUnits: 1
+                TableName: ${self:custom.votesTable}
+        CandidatesDynamoDBTable:
+            Type: 'AWS::DynamoDB::Table'
+            Properties:
+                AttributeDefinitions:
+                -
+                    AttributeName: id
+                    AttributeType: N
+                KeySchema:
+                -
+                    AttributeName: id
+                    KeyType: HASH
+                ProvisionedThroughput:
+                    ReadCapacityUnits: 1
+                    WriteCapacityUnits: 1
+                TableName: ${self:custom.candidatesTable}

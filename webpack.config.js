@@ -1,12 +1,10 @@
 const path = require("path");
 module.exports = {
     entry: {
-        // client: './src/client.js'
-        bundle: "./spa/src/bundle.js"
+        bundle: "./src/client.js"
     },
     output: {
-        path: path.resolve(__dirname, "spa/public"),
-        // filename: "client.js"
+        path: path.resolve(__dirname, "public"),
         filename: "bundle.js"
     },
     module: {
