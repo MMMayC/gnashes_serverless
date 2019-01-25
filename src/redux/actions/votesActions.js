@@ -6,7 +6,7 @@ export const POST_VOTE = "POST_VOTE";
 
 export function getVotes(from, to) {
   return dispatch => {
-    axios.get("/votes", {
+    axios.get("https://qmz6liupqh.execute-api.us-east-1.amazonaws.com/dev/votes", {
       params: {
         from: from,
         to: to
@@ -20,7 +20,6 @@ export function getVotes(from, to) {
       });
       const maxVote = votesLength.indexOf(Math.max(...votesLength));
       const gnashes = Object.keys(groupedVotes)[maxVote];
-      console.log('gnashes :', gnashes);
       dispatch({
         type: GET_VOTES,
         votes: res.data,
@@ -34,7 +33,7 @@ export function getVotes(from, to) {
 
 export function postVote(vote) {
   return (dispatch) => {
-    axios.post("/vote", vote).then(res => {
+    axios.post("https://qmz6liupqh.execute-api.us-east-1.amazonaws.com/dev/vote", vote).then(res => {
       dispatch({
         type: POST_VOTE,
         vote: vote

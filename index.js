@@ -4,10 +4,12 @@ const app = express();
 const path = require("path");
 const bodyParser = require("body-parser");
 const AWS = require("aws-sdk");
+const cors = require("cors");
 const CANDIDATES_TABLE = process.env.CANDIDATES_TABLE;
 const VOTES_TABLE = process.env.VOTES_TABLE;
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
