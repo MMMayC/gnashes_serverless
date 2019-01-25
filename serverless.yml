@@ -29,7 +29,7 @@ custom:
     candidatesTable: 'Candidates'
     votesTable: 'Votes'
     s3Sync:
-        - bucketName: the-gnashes-serverless
+        - bucketName: gnashes.junwenchen.com
           localDir: public
           acl: public-read # optional
           followSymlinks: true # optional
@@ -53,7 +53,7 @@ resources:
         GnashesAwsSiteBucket:
             Type: AWS::S3::Bucket
             Properties:
-                BucketName: the-gnashes-serverless
+                BucketName: gnashes.junwenchen.com
                 AccessControl: PublicRead
                 WebsiteConfiguration:
                     IndexDocument: index.html

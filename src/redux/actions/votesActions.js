@@ -6,7 +6,7 @@ export const POST_VOTE = "POST_VOTE";
 
 export function getVotes(from, to) {
   return dispatch => {
-    axios.get("https://qmz6liupqh.execute-api.us-east-1.amazonaws.com/dev/votes", {
+    axios.get("https://mxi41j970j.execute-api.us-east-1.amazonaws.com/dev/votes", {
       params: {
         from: from,
         to: to
@@ -33,7 +33,7 @@ export function getVotes(from, to) {
 
 export function postVote(vote) {
   return (dispatch) => {
-    axios.post("https://qmz6liupqh.execute-api.us-east-1.amazonaws.com/dev/vote", vote).then(res => {
+    axios.post("https://mxi41j970j.execute-api.us-east-1.amazonaws.com/dev/vote", vote).then(res => {
       dispatch({
         type: POST_VOTE,
         vote: vote

@@ -4,7 +4,7 @@ export const UPDATE_CURRENT_CANDIDATE = "UPDATE_CURRENT_CANDIDATE";
 
 export function getCandidates() {
   return dispatch => {
-    axios.get("https://qmz6liupqh.execute-api.us-east-1.amazonaws.com/dev/candidates").then(res => {
+    axios.get("https://mxi41j970j.execute-api.us-east-1.amazonaws.com/dev/candidates").then(res => {
       dispatch({
         type: GET_CANDIDATES,
         candidates: res.data
