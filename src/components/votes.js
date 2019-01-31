@@ -74,11 +74,17 @@ class Votes extends Component {
 
   render(){
    let currentVote = this.props.votes && this.props.votes != [] ? this.props.votes[this.state.currentVoteIndex] : null;
+   let gnashesCandidates = [];
+   if (this.props.gnashes && this.props.gnashes !=[]) {
+    this.props.gnashes.map(each => {
+      gnashesCandidates.push(this.findCandidateByName(each));
+     });  
+   }
     return (
       <div className="Votes">
         {
           this.state.revealGnashes == true ?
-          <Gnashes candidate={this.findCandidateByName(this.props.gnashes)} /> :
+          <Gnashes candidates={gnashesCandidates} /> :
           <Vote vote={currentVote} candidate={this.findCandidateByName(currentVote.candidate)} />
         }
         <div className="Votes-Overview">

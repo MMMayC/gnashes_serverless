@@ -7,7 +7,12 @@ class Gnashes extends Component {
     return (
       <div className="Gnashes Modal">
         <img src="img/gnashes.png" className="Gnashes-Trophy" />
-        <Candidate candidate={this.props.candidate} />
+        {this.props.candidates && this.props.candidates != [] ?
+        this.props.candidates.map(candidate => {
+          return <Candidate candidate={candidate} />
+        }) :
+        ""
+      }
       </div>
     );
   }
